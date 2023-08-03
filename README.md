@@ -2,7 +2,8 @@
 # Panama
 
 
-The Panama Streaming APIs provide a backend solution for the Panama social media app. These APIs enable radios, podcasters, and content creators to live stream their content and interact with their audience in an engaging way.
+The Panama Streaming boilerplate provides a backend solution for the Panama Streaming Toolkit that I have been working on lately.
+With Panama-API, radios and content creators gain a competitive advantage in the fast-paced digital landscape by allowing them to integrate their streams anywhere, thus enhancing engagement, expanding their reach, and unlocking revenue streams, Panama-API opens the door to an exciting new era of interactive broadcasting.
 
 
 
