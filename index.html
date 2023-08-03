@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Radio Stream Player --><title>Panama App Test</title>
+  <!-- Include Video.js CSS and JS -->
+  <link href="https://vjs.zencdn.net/7.15.4/video-js.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+</head>
+<body>
+  <h1></h1>
+  <div>
+    <!-- Radio Stream Player -->
+    <h2>Radio Streams</h2>
+    <select id="radio-streams">
+      <option value="">Select a radio stream</option>
+    </select>
+    <button id="play-radio">Play Radio Stream</button>
+
+    <!-- Video Stream Player -->
+    <h2>Simulated Video Stream</h2>
+    <video
+      id="video-player"
+      class="video-js"
+      controls
+      autoplay
+      width="640"
+      height="360"
+      data-setup='{"fluid": true}'
+    >
+      <source id="video-source" src="" type="video/mp4">
+    </video>
+    <button id="play-video">Play Simulated Video Stream</button>
+  </div>
+
+  <script>
+    // Fetch the available radio streams from the API server
+    fetch('http://localhost:3000/api/radio-streams')
+      .then((response) => response.json())
+      .then((data) => {
+        const radioStreamsSelect = document.getElementById('radio-streams');
+
+        // Populate the select element with available radio streams
+        data.forEach((stream) => {
+          const option = document.createElement('option');
+          option.value = stream.url;
+          option.textContent = stream.name;
+          radioStreamsSelect.appendChild(option);
+        });
+      })
+      .catch((error) => console.error(error));
+
+    // Event listener for the "Play Radio Stream" button
+    document.getElementById('play-radio').addEventListener('click', () => {
+      const radioStreamsSelect = document.getElementById('radio-streams');
+      const selectedStreamUrl = radioStreamsSelect.value;
+
+      if (selectedStreamUrl) {
+        // Create the audio element for the radio stream
+        const audio = new Audio(selectedStreamUrl);
+        audio.controls = true;
+        audio.autoplay = true;
+
+        // Replace the previous video player with the audio element
+        const videoPlayer = document.getElementById('video-player');
+        videoPlayer.parentNode.replaceChild(audio, videoPlayer);
+      } else {
+        alert('Please select a radio stream first.');
+      }
+    });
+
+    // Event listener for the "Play Simulated Video Stream" button
+    document.getElementById('play-video').addEventListener('click', () => {
+      // Fetch the simulated video stream URL from the Stream Server
+      fetch('http://localhost:3001/api/stream-url')
+        .then((response) => response.json())
+        .then((data) => {
+          const videoSource = document.getElementById('video-source');
+          videoSource.src = data.url;
+
+          // Re-initialize the Video.js player with the updated source
+          const player = videojs('video-player');
+          player.src({ type: 'video/mp4', src: data.url });
+        })
+        .catch((error) => console.error(error));
+    });
+  </script>
+</body>
+</html>

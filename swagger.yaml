@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Panama Streaming API
+  version: 1.0.0
+  description: API for streaming radio channels in Panama app
+
+paths:
+  /api/radio-streams:
+    get:
+      summary: Get available radio streams
+      description: Returns a list of available radio streams for live streaming in Panama app.
+      responses:
+        '200':
+          description: A list of radio streams.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: The unique identifier of the radio stream.
+                    name:
+                      type: string
+                      description: The name of the radio stream.
+                    url:
+                      type: string
+                      description: The URL for the radio stream.
